@@ -12,7 +12,6 @@ public class AddressBook {
 
 	// building add contact feature
 	public void addContact() {
-
 		if (addressBookNameList.isEmpty()) {
 			System.out.println("\nPlease add Address book to add contacts.");
 			return;
@@ -139,7 +138,7 @@ public class AddressBook {
 							break;
 
 						case 7:
-							System.out.print("Enter new phonr number :- ");
+							System.out.print("Enter new phone number :- ");
 							long newPhone = input.nextLong();
 							person.setPhone_number(newPhone);
 							System.out.println("Phone number is updated.");
@@ -203,7 +202,7 @@ public class AddressBook {
 	// UC-6:- Ability to add multiple address books to system
 	public void newAddressBook() {
 
-		System.out.println("Enter Address Book Name :- ");
+		System.out.print("Enter Address Book Name :- ");
 		String userInputBookName = input.next();
 
 		if (!checkUnique(userInputBookName)) {
@@ -239,29 +238,35 @@ public class AddressBook {
 	}
 
 	/**
-	 * UC-8:- Ability to search Person in a City or State across the multiple
-	 * AddressBook.
+	 * UC-9:- Ability to view Persons by City or State - Maintain Dictionary of City
+	 * and Person as well as State and Person.
 	 **/
 	public void searchPersonByCity() {
 
 		System.out.print("\nEnter city to search person by city name :- ");
 		String searchCity = input.next();
 
+		/***** Creating dictionary of city(keys) and name(values) *****/
+		Dictionary cityWiseDict = new Hashtable();
+
 		for (AddressBookList addressBook : addressBookNameList) {
 			for (ContactInfo person : addressBook.contact) {
 				if (searchCity.equals(person.city)) {
-					System.out
-							.println("Persons who are in same city " + "(" + searchCity + ") :- " + person.first_Name);
+					cityWiseDict.put(person.first_Name, searchCity);
 				} else {
 					continue;
 				}
 			}
 		}
+		System.out.println("Persons who are in same city " + searchCity + " :- ");
+		for (Enumeration i = cityWiseDict.keys(); i.hasMoreElements();) {
+			System.out.println(i.nextElement());
+		}
+		System.out.println(" ");
 	}
 
 	public void searchPersonByState() {
-
-		System.out.print("\nEnter State to search person by city name :- ");
+		System.out.print("\nEnter state to search person by State name :- ");
 		String searchState = input.next();
 
 		/***** Creating dictionary of city(keys) and name(values) *****/
@@ -270,8 +275,7 @@ public class AddressBook {
 		for (AddressBookList addressBook : addressBookNameList) {
 			for (ContactInfo person : addressBook.contact) {
 				if (searchState.equals(person.state)) {
-					System.out.println(
-							"Persons who are in same state " + "(" + searchState + ") :- " + person.first_Name);
+					stateWiseDict.put(person.first_Name, searchState);
 				} else {
 					continue;
 				}
@@ -301,15 +305,18 @@ public class AddressBook {
 		System.out.println("\nNumber of persons in same city " + "(" + countCity + ") :- " + count + ".\n");
 	}
 
-	/***
-	 * UC-11 :- Ability to sort the entries in the address book alphabetically by
-	 * Persons name.
-	 ***/
-	public void sortByName() {
-		AddressBookList addressBook = findAddressBook();
-		addressBook.contact.stream()
-				.sorted((contact1, contact2) -> contact1.getFirst_Name().compareTo(contact2.getFirst_Name()))
-				.forEach(contact -> System.out.println(contact));
+	public void countByState() {
+		System.out.println("Enter state name to count :- ");
+		String countState = input.next();
+		int count = 0;
+		for (AddressBookList addressBook : addressBookNameList) {
+			for (ContactInfo person : addressBook.contact) {
+				if (countState.equals(person.state)) {
+					count++;
+				}
+			}
+		}
+		System.out.println("\nNumber of persons in same state " + "(" + countState + ") :- " + count + ".\n");
 	}
 
 	/*** Finding address Book ***/
@@ -330,18 +337,41 @@ public class AddressBook {
 		return null;
 	}
 
-	public void countByState() {
-		System.out.println("Enter state name to count :- ");
-		String countState = input.next();
-		int count = 0;
-		for (AddressBookList addressBook : addressBookNameList) {
-			for (ContactInfo person : addressBook.contact) {
-				if (countState.equals(person.state)) {
-					count++;
-				}
-			}
+	/**
+	 * UC-12:- Ability to sort the entries in the address book by City, State, or
+	 * Zip.
+	 **/
+	public void sortByName_City_State_zip() {
+
+		AddressBookList addressBook = findAddressBook();
+
+		System.out.println("Please select any of the below options." + "\n" + "1. To Sort By Name." + "\n"
+				+ "2. To Sort By City." + "\n" + "3. To Sort By State." + "\n" + "4. To Sort By Zip Code. :- ");
+		int choice = input.nextInt();
+		switch (choice) {
+		case 1:
+			addressBook.contact.stream()
+					.sorted((contact1, contact2) -> contact1.getFirst_Name().compareTo(contact2.getFirst_Name()))
+					.forEach(contact -> System.out.println(contact));
+			break;
+		case 2:
+			addressBook.contact.stream()
+					.sorted((contact1, contact2) -> contact1.getCity().compareTo(contact2.getCity()))
+					.forEach(contact -> System.out.println(contact));
+			break;
+		case 3:
+			addressBook.contact.stream()
+					.sorted((contact1, contact2) -> contact1.getState().compareTo(contact2.getState()))
+					.forEach(contact -> System.out.println(contact));
+			break;
+		case 4:
+			addressBook.contact.stream().sorted(
+					(contact1, contact2) -> Integer.valueOf(contact1.getZip_code()).compareTo(contact2.getZip_code()))
+					.forEach(contact -> System.out.println(contact));
+			break;
+		default:
+			System.out.println("Please choose valid option.");
 		}
-		System.out.println("\nNumber of persons in same state " + "(" + countState + ") :- " + count + ".\n");
 	}
 
 	// main method
@@ -349,18 +379,24 @@ public class AddressBook {
 		System.out.println("--------------------Welcome To Address Book Program-----------------------");
 		AddressBook obj = new AddressBook();
 
+		Scanner input = new Scanner(System.in);
+
 		System.out.print("Enter valid option to perform Address Book Application[1.Enter (or) 2.Exit] :- ");
 		int enterExit = input.nextInt();
 		if (enterExit == 1) {
-
 			while (enterExit != 2) {
 				System.out.println("Choose which operation you want to perform from below list :- ");
 				System.out.println("1.Add Contact.");
 				System.out.println("2.Edit Contact");
 				System.out.println("3.Delete Contact.");
 				System.out.println("4.Add new address book.");
-				System.out.println("5.Display Address Book");
-				System.out.println("6.Exit from the Application");
+				System.out.println("5.Display Address Book.");
+				System.out.println("6.Search person by City.");
+				System.out.println("7.Search person by State.");
+				System.out.println("8.Count By City.");
+				System.out.println("9.count By State.");
+				System.out.println("10.Sort By Name/City/State/Zip-Code.");
+				System.out.println("11.Exit from the Application.");
 
 				System.out.println("\nEnter your choice :- ");
 				int userChoice = input.nextInt();
@@ -394,12 +430,12 @@ public class AddressBook {
 					obj.countByState();
 					break;
 				case 10:
-					obj.sortByName();
+					obj.sortByName_City_State_zip();
 					break;
 				default:
 					System.out.println("Enter valid choice from the list...");
 				}
-				if (userChoice == 6) {
+				if (userChoice == 11) {
 					System.out.println("Successfully exited from the Address Book Application.");
 					break;
 				}
@@ -409,5 +445,6 @@ public class AddressBook {
 		} else {
 			System.out.println("Choose Valid option [1.Enter (or) 2.Exit]...");
 		}
+		input.close();
 	}
 }
