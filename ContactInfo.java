@@ -86,8 +86,12 @@ public class ContactInfo {
 		email = email;
 	}
 
+	// returning conatcs
+	@Override
 	public String toString() {
-		return String.format(first_Name + " " + last_Name + " " + address + " " + city + " " + state + " " + zip_code
-				+ " " + phone_number + " " + email);
+		return String.format("First_name :- " + getFirst_Name() + "\n" + "Laste_name :- " + getLast_Name() + "\n"
+				+ "Address :- " + getAddress() + "\n" + "City :- " + getCity() + "\n" + "State :- " + getState() + "\n"
+				+ "Zip-code :- " + getZip_code() + "\n" + "Phone-number :- " + getPhone_number() + "\n" + "Email :- "
+				+ getEmail() + "\n\n");
 	}
 }
