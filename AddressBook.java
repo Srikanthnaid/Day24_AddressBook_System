@@ -284,6 +284,37 @@ public class AddressBook {
 		System.out.println(" ");
 	}
 
+	/**
+	 * UC-10:- Ability to get number of contact persons i.e. count by City or State.
+	 **/
+	public void countByCity() {
+		System.out.println("Enter city name to count :- ");
+		String countCity = input.next();
+		int count = 0;
+		for (AddressBookList addressBook : addressBookNameList) {
+			for (ContactInfo person : addressBook.contact) {
+				if (countCity.equals(person.city)) {
+					count++;
+				}
+			}
+		}
+		System.out.println("\nNumber of persons in same city " + "(" + countCity + ") :- " + count + ".\n");
+	}
+
+	public void countByState() {
+		System.out.println("Enter state name to count :- ");
+		String countState = input.next();
+		int count = 0;
+		for (AddressBookList addressBook : addressBookNameList) {
+			for (ContactInfo person : addressBook.contact) {
+				if (countState.equals(person.state)) {
+					count++;
+				}
+			}
+		}
+		System.out.println("\nNumber of persons in same state " + "(" + countState + ") :- " + count + ".\n");
+	}
+
 	// main method
 	public static void main(String[] args) {
 		System.out.println("--------------------Welcome To Address Book Program-----------------------");
