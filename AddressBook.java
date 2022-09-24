@@ -1,6 +1,9 @@
 package com.AddressBook;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Scanner;
 
 public class AddressBook {
@@ -261,6 +264,9 @@ public class AddressBook {
 		System.out.print("\nEnter State to search person by city name :- ");
 		String searchState = input.next();
 
+		/***** Creating dictionary of city(keys) and name(values) *****/
+		Dictionary stateWiseDict = new Hashtable();
+
 		for (AddressBookList addressBook : addressBookNameList) {
 			for (ContactInfo person : addressBook.contact) {
 				if (searchState.equals(person.state)) {
@@ -271,6 +277,11 @@ public class AddressBook {
 				}
 			}
 		}
+		System.out.println("Persons who are in same state " + searchState + " :- ");
+		for (Enumeration i = stateWiseDict.keys(); i.hasMoreElements();) {
+			System.out.println(i.nextElement());
+		}
+		System.out.println(" ");
 	}
 
 	// main method
