@@ -41,7 +41,7 @@ public class AddressBook {
 			System.out.print("Enter E-mail:- ");
 			String email = input.next();
 
-			Contact_info contact = new Contact_info(first, last, add, city, state, zip, phone, email);
+			ContactInfo contact = new ContactInfo(first, last, add, city, state, zip, phone, email);
 
 			addressBookNameList.stream().filter(find -> find.userInputBookName.contains(enter))
 					.forEach(addressBook -> addressBook.contact.add(contact));
@@ -60,7 +60,7 @@ public class AddressBook {
 		String name = input.next();
 		for (AddressBookList addressBook : addressBookNameList) {
 			if (enter.equals(addressBook.userInputBookName)) {
-				for (Contact_info person : addressBook.contact) {
+				for (ContactInfo person : addressBook.contact) {
 					if (name.equals(person.first_Name)) {
 						System.out
 								.print("\nSelect option to edit..." + " 1.First_name." + " 2.Last_name." + " 3.Address."
@@ -147,7 +147,7 @@ public class AddressBook {
 
 		for (AddressBookList addressBook : addressBookNameList) {
 			if (enter.equals(addressBook.userInputBookName)) {
-				for (Contact_info person : addressBook.contact) {
+				for (ContactInfo person : addressBook.contact) {
 					if (deleteByName.equals(person.first_Name)) {
 						addressBook.contact.remove(person);
 						System.out.println("\nSelected contact deleted successfully.");
