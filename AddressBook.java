@@ -301,6 +301,35 @@ public class AddressBook {
 		System.out.println("\nNumber of persons in same city " + "(" + countCity + ") :- " + count + ".\n");
 	}
 
+	/***
+	 * UC-11 :- Ability to sort the entries in the address book alphabetically by
+	 * Persons name.
+	 ***/
+	public void sortByName() {
+		AddressBookList addressBook = findAddressBook();
+		addressBook.contact.stream()
+				.sorted((contact1, contact2) -> contact1.getFirst_Name().compareTo(contact2.getFirst_Name()))
+				.forEach(contact -> System.out.println(contact));
+	}
+
+	/*** Finding address Book ***/
+	public AddressBookList findAddressBook() {
+		if (addressBookNameList.isEmpty()) {
+			System.out.println("Please create an address book first.");
+			return null;
+		}
+		System.out.println("Please enter the name of the address book :- ");
+		String getAddressBook = input.next();
+
+		for (AddressBookList addressBook : addressBookNameList) {
+			if (getAddressBook.equals(addressBook.userInputBookName)) {
+				return addressBook; // returning addressBook if found in the address book list.
+			}
+		}
+		System.out.println("Address Book does not exist.");
+		return null;
+	}
+
 	public void countByState() {
 		System.out.println("Enter state name to count :- ");
 		String countState = input.next();
@@ -357,6 +386,15 @@ public class AddressBook {
 					break;
 				case 7:
 					obj.searchPersonByState();
+					break;
+				case 8:
+					obj.countByCity();
+					break;
+				case 9:
+					obj.countByState();
+					break;
+				case 10:
+					obj.sortByName();
 					break;
 				default:
 					System.out.println("Enter valid choice from the list...");
