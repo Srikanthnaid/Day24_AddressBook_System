@@ -122,11 +122,32 @@ public class AddressBook {
 		}
 	}
 
+	// adding deleting contact by name feature
+	public void deleteContact() {
+		System.out.print("Enter first name to delete contact:- ");
+		String deleteByName = input.next();
+
+		for (int i = 0; i < contactBook.size(); i++) {
+			String Finding_name_in_arrayList = contactBook.get(i).getFirst_Name();
+
+			if (deleteByName.equals(Finding_name_in_arrayList)) {
+				contactBook.remove(i);
+				System.out.println("\nSelected contact deleted successfully.");
+				break;
+			} else {
+				continue;
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		System.out.println("--------------------Welcome To Address Book Program-----------------------");
 		AddressBook obj = new AddressBook();
-		obj.addContact();
-		obj.displayContacts();
+		obj.addContact(); // adding first contact
+		obj.addContact(); // adding second contact
+		obj.displayContacts(); // displaying contacts
+		obj.deleteContact(); // deleting contact
+		obj.displayContacts(); // displaying contacts after edited
 
 	}
 }
