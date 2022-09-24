@@ -43,12 +43,38 @@ public class AddressBook {
 
 			ContactInfo contact = new ContactInfo(first, last, add, city, state, zip, phone, email);
 
-			addressBookNameList.stream().filter(find -> find.userInputBookName.contains(enter))
-					.forEach(addressBook -> addressBook.contact.add(contact));
+			if (duplicateCheck(enter, first)) {
+				addressBookNameList.stream().filter(find -> find.userInputBookName.contains(enter))
+						.forEach(addressBook -> addressBook.contact.add(contact));
 
-			System.out.println("\nContact added Successfully.\n");
+				System.out.println("\nContact added Successfully.\n");
+			} else {
+				System.out.println("\nYou have already this person in your contact list.\n");
+				return;
+			}
 
 		}
+	}
+
+	/**
+	 * UC-7:- Ability to ensure there is no Duplicate Entry of the same Person in a
+	 * particular Address Book.
+	 **/
+	public boolean duplicateCheck(String enter, String first) {
+		for (AddressBookList addressBook : addressBookNameList) {
+			if (enter.equals(addressBook.userInputBookName)) {
+				for (ContactInfo person : addressBook.contact) {
+					if (first.equals(person.first_Name)) {
+						return false;
+					} else {
+						continue;
+					}
+				}
+			} else {
+				continue;
+			}
+		}
+		return true;
 	}
 
 	// Building edit contact feature
