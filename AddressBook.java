@@ -235,6 +235,44 @@ public class AddressBook {
 		}
 	}
 
+	/**
+	 * UC-8:- Ability to search Person in a City or State across the multiple
+	 * AddressBook.
+	 **/
+	public void searchPersonByCity() {
+
+		System.out.print("\nEnter city to search person by city name :- ");
+		String searchCity = input.next();
+
+		for (AddressBookList addressBook : addressBookNameList) {
+			for (ContactInfo person : addressBook.contact) {
+				if (searchCity.equals(person.city)) {
+					System.out
+							.println("Persons who are in same city " + "(" + searchCity + ") :- " + person.first_Name);
+				} else {
+					continue;
+				}
+			}
+		}
+	}
+
+	public void searchPersonByState() {
+
+		System.out.print("\nEnter State to search person by city name :- ");
+		String searchState = input.next();
+
+		for (AddressBookList addressBook : addressBookNameList) {
+			for (ContactInfo person : addressBook.contact) {
+				if (searchState.equals(person.state)) {
+					System.out.println(
+							"Persons who are in same state " + "(" + searchState + ") :- " + person.first_Name);
+				} else {
+					continue;
+				}
+			}
+		}
+	}
+
 	// main method
 	public static void main(String[] args) {
 		System.out.println("--------------------Welcome To Address Book Program-----------------------");
@@ -271,6 +309,12 @@ public class AddressBook {
 					break;
 				case 5:
 					obj.displayAddressBook();
+					break;
+				case 6:
+					obj.searchPersonByCity();
+					break;
+				case 7:
+					obj.searchPersonByState();
 					break;
 				default:
 					System.out.println("Enter valid choice from the list...");
